@@ -117,3 +117,85 @@ public int kmp(char[] a, char[] b){
 }
 ```
 
+
+
+```java
+// kmp 
+/**
+* next[i]=k b[0,i]的后缀子串中，匹配的最长前缀结束下标为k，则k+1位的后缀b[i-k,i] 与b[0,k]相同
+*/
+public int[] getNext(char[] b){
+  int[] next = new int[b.length];
+  int k = -1;
+  for(int i=1; i<b.length; i++){
+    while(k!=-1 && b[k+1]!=b[i]){
+      k = next[k];
+    }
+    if(b[k+1] == b[i]){
+      k++;
+    }
+    next[i] = k;
+  }
+}
+```
+
+
+
+```java
+public int[] getNext(char[] b){
+  int[] next = new int[b.length];
+  int k=-1;
+  for(int i=0; i<b.length; i++){
+    while(k!=-1 && b[k+1]!=b[i]){
+      k = next[k];
+    }
+    if(b[k+1] == b[i]){
+			k++;
+    }
+    next[i] =k;
+  }
+  return next;
+}
+```
+
+
+
+```java
+/**
+* @return next[i]=k 最大前缀下标k
+*/
+public int[] getNext(char[] b){
+  int[] next = new int[b.length];
+  next[0] = -1;
+ 	int k =-1;
+  for(int i=1; i<b.length; i++){
+    while(k!=-1 && b[k+1] == b[i]){
+      k = next[k];
+    }
+    if(b[k+1] == b[i]){
+      k++;
+    }
+    next[i]=k;
+  }
+  return next;
+}
+
+public int kmp(char[] a, char[] b){
+  int[] next = getNext(b);
+  int j=0;
+  for(int i=0;i<a.length; i++){
+    while(j>0 && b[j]!=a[i]){
+      j = next[j-1]+1;
+    }
+    if(b[j] == a[i]){
+      j++;
+    }
+    if(j == a.length){
+      return i-b.length+1;
+    }
+  }
+  return -1;
+}
+
+```
+
